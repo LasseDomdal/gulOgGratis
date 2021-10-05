@@ -1,4 +1,4 @@
-.bodyDiv {
+.frontpage, .Overview {
     display: inline-block;
     background: linear-gradient(90deg, rgba(0, 247, 255, 0.1) 0%, rgba(255, 0, 149, 0.1) 35%, rgba(0, 183, 255, 0.1) 100%);
     text-align: center;
@@ -13,11 +13,10 @@
 
 }
 
-h2, h1 {
-    text-align: center;
-    position: center;
-}
 
-.bodyDiv:active{
+
+.frontpage, .Overview:active{
     background-color: rgb(255, 249, 249, 0.1);
 }
+
+

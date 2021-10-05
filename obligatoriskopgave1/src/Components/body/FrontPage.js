@@ -1,33 +1,57 @@
 import React, {useEffect, useState} from "react";
-import {Link, Route, Switch, useRouteMatch} from "react-router-dom";
+import {Link} from "react-router-dom";
+import './body.css';
+
 
 
 function FrontPage(props) {
-    const [category, setCategory] = useState([])
-    let { path, url } = useRouteMatch();
+    const [categories, setCategory] = useState([])
+
 
     useEffect(() => {
-            fetch("http://localhost:8080/categories")
-                .then(response => response.json())
-                .then(data => setCategory(data));
-        }, []
-           );
+        getCategoryList().catch(error => console.log(error))
+    }, [])
 
+    async function getCategoryList() {
+        let response = await fetch("http://localhost:8080/categories",
+            {
+                method: "GET",
+                headers: {
+                    'content-type': 'application/json',
+                    'Accept': 'application/json'
+                }
+            }
+        )
+        if (response.ok && response.status.toString()[0] === "2") {
+            let js = await response.json()
+            setCategory(js)
+        } else new Error("something went wrong")
+    }
 
-    return (
-        <div className="frontpage">
+    function getCategoryComponents() {
+        return categories.map((c, index) => <Category key={index} categories={c}/>)
+    }
 
-        {category.map(cat => (
-                <ul>
-                    <Link to={`${url}/cat.category`}>
-                        {cat.category} : {cat.numberOfAds}
+    function Category(props) {
+        return (
+            <div >
+                    <ul>
+                        <Link to={'/advertisements/' + props.categories.category}>
+                            {props.categories.category} : {props.categories.numberOfAds}
+
                         </Link>
                     </ul>
 
-                ))}
-
             </div>
-            )}
+        );
+    }
+
+    return (
+        <div className="frontpage">
+            {getCategoryComponents()}
+        </div>
+    )
+}
 
 
 export default FrontPage;

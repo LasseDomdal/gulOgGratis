@@ -7,7 +7,8 @@ import Logo from './home button.jpg';
 function Header(props) {
 
     return (
-        <div>
+        <div className="header">
+
             <Link to="/"><img className="logo" src={Logo}/></Link>
         </div>
     );
